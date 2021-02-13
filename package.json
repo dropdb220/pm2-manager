@@ -1,0 +1,17 @@
+{
+  "name": "pm2-manager",
+  "version": "1.0.0",
+  "description": "pm2 manager for team int",
+  "main": "index.js",
+  "repository": "https://github.com/int-Team/pm2-manager.git",
+  "author": "mswgen <54498184+mswgen@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "12.5.1",
+    "dotenv": "8.2.0",
+    "ascii-table": "0.0.9"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
