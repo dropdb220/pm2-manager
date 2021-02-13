@@ -5,7 +5,7 @@ module.exports = {
     description: '봇의 도움말을 볼 수 있어요.',
     usage: 'help [명령어 이름]',
     run: async (client, message, args) => {
-        let isAzure = require('child_process').execSync('hostname').toString() == 'teamint';
+        let isAzure = require('child_process').execSync('hostname').toString() == 'teamint\n';
         if (args[1]) {
             let cmd = client.commands.get(args[1]);
             if (!cmd) {
