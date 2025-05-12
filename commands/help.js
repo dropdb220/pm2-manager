@@ -5,7 +5,7 @@ module.exports = {
     description: '봇의 도움말 확인하기',
     usage: 'help [명령어 이름]',
     run: async (client, message, args) => {
-        let isAzure = require('child_process').execSync('hostname').toString() == 'DefaultVM\n';
+        let isAzure = require('child_process').execSync('hostname').toString() == `${process.env.AZURE_HOSTNAME}\n`;
         if (args[1]) {
             let cmd = client.commands.get(args[1]);
             if (!cmd) {

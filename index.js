@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client({
     ws: {
         properties: {
-            $browser: 'Discord iOS'
+            browser: 'Discord iOS'
         }
     },
     intents: [
@@ -20,7 +20,7 @@ require('dotenv').config();
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.ops = require('./ops.json');
-let isAzure = require('child_process').execSync('hostname').toString() == 'DefaultVM\n';
+let isAzure = require('child_process').execSync('hostname').toString() == `${process.env.AZURE_HOSTNAME}\n`;
 fs.readdir('./commands/', (err, list) => {
     for (let file of list) {
         try {
