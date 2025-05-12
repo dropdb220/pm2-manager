@@ -13,6 +13,12 @@ const client = new Discord.Client({
         Discord.GatewayIntentBits.GuildMessageReactions
     ]
 });
+const { 
+    DefaultWebSocketManagerOptions: { 
+        identifyProperties 
+    } 
+} = require("@discordjs/ws");
+identifyProperties.browser = "Discord Android";
 const fs = require('fs');
 const ascii = require('ascii-table');
 const table = new ascii().setHeading('Command', 'Load Status');
