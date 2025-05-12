@@ -4,7 +4,14 @@ const client = new Discord.Client({
         properties: {
             $browser: 'Discord iOS'
         }
-    }
+    },
+    intents: [
+        Discord.GatewayIntentBits.Guilds,
+        Discord.GatewayIntentBits.GuildMessages,
+        Discord.GatewayIntentBits.GuildMessageTyping,
+        Discord.GatewayIntentBits.MessageContent,
+        Discord.GatewayIntentBits.GuildMessageReactions
+    ]
 });
 const fs = require('fs');
 const ascii = require('ascii-table');
@@ -38,12 +45,12 @@ fs.readdir('./commands/', (err, list) => {
 client.on('ready', () => {
     console.log(`Login ${client.user.username}\n---------------------`);
 });
-client.on('message', async message => {
+client.on('messageCreate', async message => {
     if (message.author.bot) return;
-    if (message.channel.type != 'text' && message.channel.type != 'news') return;
+    if (message.channel.type != Discord.ChannelType.GuildText && message.channel.type != Discord.ChannelType.GuildAnnouncement) return;
     if (!message.content.startsWith(isAzure ? process.env.PREFIX_AZURE : process.env.PREFIX_LOCAL)) return;
-    message.channel.startTyping(1);
-    let args = message.content.substr((isAzure ? process.env.PREFIX_AZURE : process.env.PREFIX_LOCAL).length).trim().split(' ');
+    message.channel.sendTyping();
+    let args = message.content.slice((isAzure ? process.env.PREFIX_AZURE : process.env.PREFIX_LOCAL).length).trim().split(' ');
     if (client.commands.get(args[0])) {
         client.commands.get(args[0]).run(client, message, args);
     } else if (client.aliases.get(args[0])) {
@@ -82,8 +89,8 @@ client.on('message', async message => {
                 embed: new Discord.MessageEmbed()
                 .setTitle('명령어 자동 수정')
                 .setColor('RANDOM')
-                .setDescription('입력한 명령어는 존재하지 않아요.\n대신 아래 명령어를 대신 실행하까요?')
-                .addField('실행할 명령어', msgClone.content)
+                .setDescription('입력한 명령어는 존재하지 않습니다.\n대신 아래 명령어를 대신 실행할까요?')
+                .addFields([{ name: '실행할 명령어',value:  msgClone.content }])
                 .setFooter(message.author.tag, message.author.displayAvatarURL())
                 .setTimestamp()
             });
@@ -101,6 +108,5 @@ client.on('message', async message => {
             });
         }
     }
-    message.channel.stopTyping(true);
 });
 client.login(process.env.TOKEN);

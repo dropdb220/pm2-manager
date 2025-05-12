@@ -7,11 +7,12 @@
   "author": "dropdb220 <54498184+dropdb220@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "12.5.1",
-    "dotenv": "8.2.0",
-    "ascii-table": "0.0.9"
+    "ascii-table": "^0.0.9",
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.5.0"
   },
   "scripts": {
     "start": "node index.js"
-  }
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }

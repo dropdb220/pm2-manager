@@ -7,18 +7,19 @@ let statuses = {
     stopping: '🟡 프로세스 정지 중'
 }
 module.exports = {
-    name: 'restart',
-    aliases: ['재시작', '리스타트', 'ㄱㄷㄴㅅㅁㄱㅅ', 'wotlwkr', 'fltmxkxm'],
-    description: '프로세스 재시작하기',
-    usage: 'restart <프로세스 이름 또는 ID 또는 `all`>',
+    name: 'start',
+    aliases: ['새로시작', 'startnew', 'newstart', 'exec', '실행', 'ㄴㅅㅁㄱㅅ', 'ㄷㅌㄷㅊ', 'tlfgod', 'tlwkr'],
+    description: '새 프로세스 시작하기',
+    usage: 'startnew <프로세스 이름> [메인 파일 경로 또는 시작 명령어]',
     run: async (client, message, args) => {
         if (!client.ops.devs.includes(message.author.id)) return message.channel.send(`${client.user.username} 개발자만 사용할 수 있습니다.`);
-        if (!args[1]) return message.channel.send('프로세스 이름, ID, 또는 `all`을 입력하세요.');
+        if (!args[1]) return message.channel.send('프로세스 이름을 입력하세요.');
+        if (!args[2]) return message.channel.send('메인 파일 경로 또는 시작 명령어를 입력하세요.');
         try {
-            require('child_process').execSync(`pm2 restart ${args[1]}`);
+            require('child_process').execSync(`pm2 start ${args[2]} --cwd ${require('path').parse(args[2]).dir === '' ? '.' : require('path').parse(args[2]).dir}${args[1] ? ` --name ${args[1]}` : ''}${args[3] ? ` -- ${args.slice(3).join(' ')}` : ''}`);
             let lists = JSON.parse(require('child_process').execSync('pm2 jlist').toString());
             const embed = new Discord.MessageEmbed()
-                .setTitle('프로세스 재시작 완료!')
+                .setTitle('새 프로세스 시작 완료!')
                 .setColor('RANDOM')
                 .setFooter(message.author.tag, message.author.displayAvatarURL())
                 .setTimestamp();
@@ -27,7 +28,7 @@ module.exports = {
             }
             message.channel.send(embed);
         } catch (e) {
-            message.channel.send(`프로세스를 재시작하는 중 에러가 발생했습니다.\n\`\`\`${e}\`\`\``);
+            message.channel.send(`새 프로세스를 시작하는 중 에러가 발생했습니다.\n\`\`\`${e}\`\`\``);
         }
     }
 }
