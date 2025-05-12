@@ -13,29 +13,29 @@ module.exports = {
             } else {
                 const embed = new Discord.EmbedBuilder()
                     .setTitle(cmd.name)
-                    .setColor('RANDOM')
+                    .setColor([114, 137, 218])
                     .addFields([
                         { name: 'Aliases', value: cmd.aliases.map(x => `\`${x}\``).join(', ') },
                         { name: 'Description', value: cmd.description },
                         { name: 'Usage(`<>` 안은 필수, `[]` 안은 선택)', value: `${isAzure ? process.env.PREFIX_AZURE : process.env.PREFIX_LOCAL}${cmd.usage}` }
                     ])
-                    .setFooter(message.author.tag, message.author.displayAvatarURL())
+                    .setFooter({ text: message.author.tag, icon_url: message.author.displayAvatarURL() })
                     .setTimestamp();
                 message.channel.send({
-                    embed: embed
+                    embeds: [embed]
                 });
             }
         } else {
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
                 .setTitle(`${client.user.username} 도움말`)
-                .setColor('RANDOM')
-                .setFooter(message.author.tag, message.author.displayAvatarURL())
+                .setColor([114, 137, 218])
+                .setFooter({ text: message.author.tag, icon_url: message.author.displayAvatarURL() })
                 .setTimestamp()
                 .setThumbnail(client.user.displayAvatarURL())
                 .addFields([{ name: '명령어 목록', value: client.commands.map(x => `\`${x.name}\``).join(', ') }])
                 .setDescription(`자세한 정보는 ${isAzure ? process.env.PREFIX_AZURE : process.env.PREFIX_LOCAL}help <명령어 이름>을 입력하세요.`)
             message.channel.send({
-                embed: embed
+                embeds: [embed]
             });
         }
     }

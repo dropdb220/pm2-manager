@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client({
     ws: {
         properties: {
-            browser: 'Discord iOS'
+            $browser: 'Discord iOS'
         }
     },
     intents: [
@@ -86,12 +86,12 @@ client.on('messageCreate', async message => {
             argsClone[0] = `${isAzure ? process.env.PREFIX_AZURE : process.env.PREFIX_LOCAL}${sname}`;
             msgClone.content = message.content.replace(typed, sname);
             let m = await message.channel.send({
-                embed: new Discord.MessageEmbed()
+                embed: new Discord.EmbedBuilder()
                 .setTitle('명령어 자동 수정')
-                .setColor('RANDOM')
+                .setColor([114, 137, 218])
                 .setDescription('입력한 명령어는 존재하지 않습니다.\n대신 아래 명령어를 대신 실행할까요?')
                 .addFields([{ name: '실행할 명령어',value:  msgClone.content }])
-                .setFooter(message.author.tag, message.author.displayAvatarURL())
+                .setFooter({ text: message.author.tag, icon_url: message.author.displayAvatarURL() })
                 .setTimestamp()
             });
             await m.react('✅');

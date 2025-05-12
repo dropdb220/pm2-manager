@@ -7,7 +7,7 @@ let statuses = {
     stopping: '🟡 프로세스 정지 중'
 }
 module.exports = {
-    name: 'start',
+    name: 'startnew',
     aliases: ['새로시작', 'startnew', 'newstart', 'exec', '실행', 'ㄴㅅㅁㄱㅅ', 'ㄷㅌㄷㅊ', 'tlfgod', 'tlwkr'],
     description: '새 프로세스 시작하기',
     usage: 'startnew <프로세스 이름> [메인 파일 경로 또는 시작 명령어]',
@@ -18,15 +18,15 @@ module.exports = {
         try {
             require('child_process').execSync(`pm2 start ${args[2]} --cwd ${require('path').parse(args[2]).dir === '' ? '.' : require('path').parse(args[2]).dir}${args[1] ? ` --name ${args[1]}` : ''}${args[3] ? ` -- ${args.slice(3).join(' ')}` : ''}`);
             let lists = JSON.parse(require('child_process').execSync('pm2 jlist').toString());
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
                 .setTitle('새 프로세스 시작 완료!')
-                .setColor('RANDOM')
-                .setFooter(message.author.tag, message.author.displayAvatarURL())
+                .setColor([114, 137, 218])
+                .setFooter({ text: message.author.tag, icon_url: message.author.displayAvatarURL() })
                 .setTimestamp();
             for (let x of lists) {
                 embed.addFields([{ name: x.name, value: `상태: ${statuses[x.pm2_env.status]}\nID: ${x.pm_id}\n실행 모드: ${x.pm2_env.exec_mode}\n프로세스 ID(PID): ${x.pid}\n업타임: ${Math.floor((new Date() - x.pm2_env.created_at) / 360000) / 10}시간\n재시작 횟수: ${x.pm2_env.restart_time}회\nCPU 사용량: ${x.monit.cpu}%\nRAM 사용량: ${x.monit.memory / 1048576|0}MB`, inline: true }]);
             }
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
         } catch (e) {
             message.channel.send(`새 프로세스를 시작하는 중 에러가 발생했습니다.\n\`\`\`${e}\`\`\``);
         }
