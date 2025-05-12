@@ -13,7 +13,7 @@ require('dotenv').config();
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.ops = require('./ops.json');
-let isAzure = require('child_process').execSync('hostname').toString() == 'teamint\n';
+let isAzure = require('child_process').execSync('hostname').toString() == 'DefaultVM\n';
 fs.readdir('./commands/', (err, list) => {
     for (let file of list) {
         try {
